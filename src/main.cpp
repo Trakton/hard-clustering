@@ -5,6 +5,8 @@
 #include <list>
 #include <cstdlib>
 #include <cmath>
+#include <ctime>
+#include <limits>
 
 using namespace std;
 
@@ -18,10 +20,9 @@ using namespace std;
 #include "hardClustering.cpp"
 
 int main(){
+    srand(time(NULL));
     CSV csv;
     Dataset dataset(csv.read("data/segmentation.data.csv"));
-    Dissimilarity dissimilarity[2] = {Dissimilarity(View(dataset, 1, 9)),
-                                      Dissimilarity(View(dataset, 10, 19))};
-    
+    HardClustering clustering(7, 3, dataset);
     return 0;
 }

@@ -16,10 +16,13 @@ class Prototype{
         int operator[](int i) const {
             return prototypes[i];
         }
-        double dist(int j, const vector<Point> &data){
+        double dist(int j, const vector<Dissimilarity> &dissimilarities){
             double d = 0;
             for(int i = 0; i < q; i++){
-                d += data[prototypes[i]].dist(data[j]);
+                for(int k = 0; k < dissimilarities.size(); k++){
+                    d += dissimilarities[k].get(prototypes[i], j);
+                }
             }
+            return d;
         }
 };

@@ -5,15 +5,14 @@ class Dissimilarity{
     public:
         Dissimilarity(View view, double weight = 1){
             this->weight = weight;
+            this->matrix.assign(view.size(), vector<double>(view.size(), 0));
             for(int i = 0; i < view.size(); i++){
-                vector<double> dists;
                 for(int j = i; j < view.size(); j++){
-                    dists.push_back(view[i].dist(view[j]));
+                    this->matrix[i][j] = view[i].dist(view[j]);
                 }
-                this->matrix.push_back(dists);
             }
         }
-        double get(int i, int j){
+        double get(int i, int j) const{
             if(j < i) swap(i, j);
             return weight * matrix[i][j];
         }

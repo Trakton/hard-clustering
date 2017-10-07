@@ -8,7 +8,7 @@ class Dataset{
         vector<string> operator[](int i) const{
             return data[i];
         }
-        int size(){
+        int size() const{
             return data.size();
         }
 };
