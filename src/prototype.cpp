@@ -7,11 +7,23 @@ class Prototype{
         Prototype(int q){
             this->q = q;
         }
+        int getQ(){
+            return q;
+        }
+        void print(){
+            for(int i = 0; i < q; i++){
+                printf("%d,", prototypes[i]);
+            }
+            printf("\n");
+        }
         void randomize(int n){
             prototypes.clear();
             for(int i = 0; i < q; i++){
                 prototypes.push_back(rand()%n);
             }
+        }
+        void set(vector<int> prototypes){
+            this->prototypes = prototypes;
         }
         int operator[](int i) const {
             return prototypes[i];

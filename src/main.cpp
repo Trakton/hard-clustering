@@ -7,6 +7,9 @@
 #include <cmath>
 #include <ctime>
 #include <limits>
+#include <utility>
+#include <functional>
+#include <queue>
 
 using namespace std;
 
@@ -24,5 +27,8 @@ int main(){
     CSV csv;
     Dataset dataset(csv.read("data/segmentation.data.csv"));
     HardClustering clustering(7, 3, dataset);
+    for(int i = 0; i < 2; i++){
+        clustering.run();
+    }
     return 0;
 }

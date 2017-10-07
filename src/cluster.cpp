@@ -1,6 +1,6 @@
 class Cluster{
     private:
-        list<int> elements;        
+        list<int> elements;       
     public:
         Prototype prototype;        
         Cluster(int n, int q){
@@ -10,10 +10,13 @@ class Cluster{
         void insert(int i){
             elements.push_back(i);
         }
-        void print(){
+        double dist(int j, const vector<Dissimilarity>& dissimilarities){
+            double d = 0;
             for(list<int>::iterator it = elements.begin(); it != elements.end(); ++it){
-                printf("%d,", *it);
+                for(int k = 0; k < dissimilarities.size(); ++k){
+                    d += dissimilarities[k].get(*it, j);
+                }
             }
-            printf("\n");
+            return d;
         }
 };
