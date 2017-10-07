@@ -1,10 +1,3 @@
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
 class CSV{
     private:
         vector<string> nextLine(istream& str){
