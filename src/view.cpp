@@ -14,14 +14,6 @@ class View{
         vector<double> operator[](int i) const{
             return data[i];
         }
-        void print(){
-            for(int i = 0; i < data.size(); i++){
-                for(int j = 0; j < data[i].size(); j++){
-                    printf("%.2lf,", data[i][j]);
-                }
-                printf("\n");
-            }
-        }
         int size(){
             return data.size();
         }
