@@ -1,8 +1,8 @@
 class Dissimilarity{
     private:
         vector<vector<double> > matrix;
-        double weight;
     public:
+        double weight;        
         Dissimilarity(View view, double weight = 1){
             this->weight = weight;
             this->matrix.assign(view.size(), vector<double>(view.size(), 0));
@@ -15,5 +15,9 @@ class Dissimilarity{
         double get(int i, int j) const{
             if(j < i) swap(i, j);
             return weight * matrix[i][j];
+        }
+        double getUnweight(int i, int j) const{
+            if(j < i) swap(i, j);
+            return matrix[i][j];
         }
 };

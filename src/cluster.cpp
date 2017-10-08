@@ -19,4 +19,11 @@ class Cluster{
             }
             return d;
         }
+        double distToPrototypeUnweight(const Dissimilarity& dissimilarity){
+            double d = 0;
+            for(list<int>::iterator it = elements.begin(); it != elements.end(); ++it){
+                d += prototype.distUnweight(*it, dissimilarity);
+            }
+            return d;
+        }
 };

@@ -37,4 +37,18 @@ class Prototype{
             }
             return d;
         }
+        double dist(int j, const Dissimilarity &dissimilarity){
+            double d = 0;
+            for(int i = 0; i < q; i++){
+                d += dissimilarity.get(prototypes[i], j);
+            }
+            return d;
+        }
+        double distUnweight(int j, const Dissimilarity &dissimilarity){
+            double d = 0;
+            for(int i = 0; i < q; i++){
+                d += dissimilarity.getUnweight(prototypes[i], j);
+            }
+            return d;
+        }
 };

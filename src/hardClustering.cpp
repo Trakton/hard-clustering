@@ -27,6 +27,27 @@ class HardClustering{
             }
             printf("\n");
         }
+
+        void findBestWeights(){
+            int P = dissimilarities.size();
+            int K = clusters.size();
+            vector<double> denominators;
+            double numerator = 1;
+            for(int h = 0; h < P; ++h){
+                double sum = 0;
+                for(int k = 0; k < K; ++k){
+                    sum += clusters[k].distToPrototypeUnweight(dissimilarities[h]);
+                }
+                numerator *= sum;
+                denominators.push_back(sum);
+            }
+            numerator = pow(numerator, 1.0/P);
+            for(int j = 0; j < P; ++j){
+                dissimilarities[j].weight = numerator/denominators[j];
+                printf("[%.2lf],", dissimilarities[j].weight);
+            }
+            printf("\n");
+        }
     public:
         HardClustering(int k, int q, const Dataset& data){
             this->n = data.size();
@@ -54,5 +75,6 @@ class HardClustering{
 
         void run(){
             findBestPrototypes();
+            findBestWeights();
         }
 };
