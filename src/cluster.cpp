@@ -26,4 +26,9 @@ class Cluster{
             }
             return d;
         }
+        void print(){
+            for(list<int>::iterator it = elements.begin(); it != elements.end(); ++it){
+                printf("%d,", *it);
+            }                
+        }
 };

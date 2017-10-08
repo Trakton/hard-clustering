@@ -26,7 +26,7 @@ int main(){
     srand(time(NULL));
     CSV csv;
     Dataset dataset(csv.read("data/segmentation.data.csv"));
-    HardClustering clustering(7, 3, dataset);
+    HardClustering clustering(7, 3, dataset, true);
     for(int i = 0; i < 2; i++){
         clustering.run();
     }

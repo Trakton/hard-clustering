@@ -10,12 +10,6 @@ class Prototype{
         int getQ(){
             return q;
         }
-        void print(){
-            for(int i = 0; i < q; i++){
-                printf("%d,", prototypes[i]);
-            }
-            printf("\n");
-        }
         void randomize(int n){
             prototypes.clear();
             for(int i = 0; i < q; i++){
@@ -50,5 +44,10 @@ class Prototype{
                 d += dissimilarity.getUnweight(prototypes[i], j);
             }
             return d;
+        }
+        void print(){
+            for(int i = 0; i < prototypes.size(); i++){
+                printf("%d,", prototypes[i]);
+            }
         }
 };

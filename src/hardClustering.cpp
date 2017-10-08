@@ -1,15 +1,12 @@
 class HardClustering{
     private:
         int n;
+        int t;
+        bool log;
         vector<Dissimilarity> dissimilarities;
         vector<Cluster> clusters;
 
         void findBestPrototypes(){
-            for(int k = 0; k < clusters.size(); k++){
-                printf("%d:\n", k);
-                clusters[k].prototype.print();
-            }
-            printf("\n");
             for(int k = 0; k < clusters.size(); k++){
                 priority_queue<pair<double, int>, vector<pair<double, int> >, greater<pair<double, int> > > closest;
                 for(int i = 0; i < n; i++){
@@ -22,10 +19,7 @@ class HardClustering{
                     closest.pop();
                 }
                 clusters[k].prototype.set(prototypes);
-                printf("%d:\n", k);
-                clusters[k].prototype.print();
             }
-            printf("\n");
         }
 
         void findBestWeights(){
@@ -44,13 +38,13 @@ class HardClustering{
             numerator = pow(numerator, 1.0/P);
             for(int j = 0; j < P; ++j){
                 dissimilarities[j].weight = numerator/denominators[j];
-                printf("[%.2lf],", dissimilarities[j].weight);
             }
-            printf("\n");
         }
     public:
-        HardClustering(int k, int q, const Dataset& data){
+        HardClustering(int k, int q, const Dataset& data, bool generateLogs){
             this->n = data.size();
+            this->log = generateLogs;
+            this->t = 0;
 
             for(int i = 0; i < k; i++){
                 clusters.push_back(Cluster(n, q));
@@ -71,10 +65,35 @@ class HardClustering{
                 }
                 clusters[cluster].insert(point);
             }
+
+            printLog();
+        }
+
+        void printLog(){
+            printf("\n\n[Hard-Clustering] NEW ITERATION:\n");
+            printf("T: %d, K: %d, P: %d, Q: %d\n", t, clusters.size(), dissimilarities.size(), clusters[0].prototype.getQ());
+            printf("\n -- CLUSTER STATE --\n");
+            for(int i = 0; i < clusters.size(); i++){
+                printf("[%d]:\n", i);
+                clusters[i].print();
+                printf("\n");
+            }
+            printf("\n -- PROTOTYPE STATE --\n");
+            for(int i = 0; i < clusters.size(); i++){
+                printf("[%d]: ", i);
+                clusters[i].prototype.print();
+                printf("\n");
+            }
+            printf("\n -- WEIGHT STATE --\n");
+            for(int i = 0; i < dissimilarities.size(); i++){
+                printf("[%d]: %.2lf\n", i, dissimilarities[i].weight);
+            }
         }
 
         void run(){
+            t++;
             findBestPrototypes();
             findBestWeights();
+            if(log) printLog();            
         }
 };
