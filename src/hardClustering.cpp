@@ -5,6 +5,20 @@ class HardClustering{
         bool log;
         vector<Dissimilarity> dissimilarities;
         vector<Cluster> clusters;
+        vector<int> belongsTo;
+
+        int closestCluster(int point){
+            int cluster;
+            double closestDist = numeric_limits<double>::max();
+            for(int c = 0; c < clusters.size(); c++){
+                double curDist = clusters[c].prototype.dist(point, dissimilarities);
+                if(curDist < closestDist){
+                    closestDist = curDist;
+                    cluster = c;
+                }
+            }
+            return cluster;
+        }
 
         void findBestPrototypes(){
             for(int k = 0; k < clusters.size(); k++){
@@ -40,6 +54,21 @@ class HardClustering{
                 dissimilarities[j].weight = numerator/denominators[j];
             }
         }
+
+        bool defineBestPartition(){
+            bool stuck = true;
+            for(int point = 0; point < n; point++){
+                int shouldBelong = closestCluster(point);
+                int belongs = belongsTo[point];
+                if(shouldBelong != belongs){
+                    stuck = false;
+                    belongsTo[point] = shouldBelong;
+                    clusters[belongs].remove(point);
+                    clusters[shouldBelong].insert(point);
+                }
+            }
+            return stuck;
+        }
     public:
         HardClustering(int k, int q, const Dataset& data, bool generateLogs){
             this->n = data.size();
@@ -54,15 +83,8 @@ class HardClustering{
             dissimilarities.push_back(Dissimilarity(View(data, 10, 19)));
 
             for(int point = 0; point < n; point++){
-                int cluster;
-                double closestDist = numeric_limits<double>::max();
-                for(int c = 0; c < clusters.size(); c++){
-                    double curDist = clusters[c].prototype.dist(point, dissimilarities);
-                    if(curDist < closestDist){
-                        closestDist = curDist;
-                        cluster = c;
-                    }
-                }
+                int cluster = closestCluster(point);
+                belongsTo.push_back(cluster);
                 clusters[cluster].insert(point);
             }
 
@@ -90,10 +112,12 @@ class HardClustering{
             }
         }
 
-        void run(){
+        bool run(){
             t++;
             findBestPrototypes();
             findBestWeights();
-            if(log) printLog();            
+            bool stuck = defineBestPartition();
+            if(log) printLog();           
+            return stuck; 
         }
 };
