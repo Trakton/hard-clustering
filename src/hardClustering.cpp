@@ -88,7 +88,7 @@ class HardClustering{
                 clusters[cluster].insert(point);
             }
 
-            printLog();
+            if(log) printLog();
         }
 
         void printLog(){
