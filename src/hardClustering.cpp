@@ -91,6 +91,10 @@ class HardClustering{
             if(log) printLog();
         }
 
+        vector<Cluster> getClusters(){
+            return clusters;
+        }
+
         void printLog(){
             printf("\n\n[Hard-Clustering] NEW ITERATION:\n");
             printf("T: %d, K: %d, P: %d, Q: %d\n", t, clusters.size(), dissimilarities.size(), clusters[0].prototype.getQ());

@@ -10,6 +10,7 @@
 #include <utility>
 #include <functional>
 #include <queue>
+#include <map>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ using namespace std;
 #include "prototype.cpp"
 #include "cluster.cpp"
 #include "hardClustering.cpp"
+#include "classClustering.cpp"
+#include "randIndex.cpp"
 
 int main(){
     srand(time(NULL));
@@ -31,5 +34,10 @@ int main(){
         clustering.run();
     }
     clustering.printLog();
+    ClassClustering knownCluster(dataset, 0);
+    knownCluster.printLog();
+    RandIndex rand(dataset.size(), clustering.getClusters(), knownCluster.getClusters());
+    rand.printContingency();
+    printf("\n -- AJUSTED RAND INDEX -- \n\n %.4lf\n", rand.getAjusted());
     return 0;
 }

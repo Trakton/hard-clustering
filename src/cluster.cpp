@@ -1,7 +1,6 @@
 class Cluster{
-    private:
-        set<int> elements;       
     public:
+        set<int> elements;               
         Prototype prototype;        
         Cluster(int n, int q){
             prototype = Prototype(q);
