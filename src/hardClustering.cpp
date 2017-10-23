@@ -89,6 +89,7 @@ class HardClustering{
             }
 
             if(log) printLog();
+            
         }
 
         vector<Cluster> getClusters(){
@@ -97,7 +98,7 @@ class HardClustering{
 
         void printLog(){
             printf("\n\n[Hard-Clustering] NEW ITERATION:\n");
-            printf("T: %d, K: %d, P: %d, Q: %d\n", t, clusters.size(), dissimilarities.size(), clusters[0].prototype.getQ());
+            printf("T: %d, K: %lu, P: %lu, Q: %d\n", t, clusters.size(), dissimilarities.size(), clusters[0].prototype.getQ());
             printf("\n -- CLUSTER STATE --\n");
             for(int i = 0; i < clusters.size(); i++){
                 printf("[%d]:\n", i);
@@ -121,7 +122,7 @@ class HardClustering{
             findBestPrototypes();
             findBestWeights();
             bool stuck = defineBestPartition();
-            if(log) printLog();           
-            return stuck; 
+            if(log) printLog();
+            return stuck;
         }
 };

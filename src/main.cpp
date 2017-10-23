@@ -26,12 +26,17 @@ using namespace std;
 #include "randIndex.cpp"
 
 int main(){
-    srand(time(NULL));
+    int seed = 1508782516;
+    srand(seed);
     CSV csv;
-    Dataset dataset(csv.read("data/segmentation.data.csv"));
+    Dataset dataset(csv.read("data/segmentation.test.csv"));
     HardClustering clustering(7, 3, dataset, false);
     for(int i = 0; i < 100; i++){
-        clustering.run();
+        if(clustering.run()){
+          printf("REACHED A LOCAL MINIMUM\n");
+          break;
+        }
+        printf("%d/100 iterations done.\n", i);
     }
     clustering.printLog();
     ClassClustering knownCluster(dataset, 0);
@@ -39,5 +44,6 @@ int main(){
     RandIndex rand(dataset.size(), clustering.getClusters(), knownCluster.getClusters());
     rand.printContingency();
     printf("\n -- AJUSTED RAND INDEX -- \n\n %.4lf\n", rand.getAjusted());
+    printf("\n -- RANDOM SEED: %d\n", seed);
     return 0;
 }
