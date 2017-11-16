@@ -42,6 +42,9 @@ class RandIndex{
             this->adjusted = (index-expectedIndex)/(maxIndex-expectedIndex);
         }
     public:
+        RandIndex(){
+            this->adjusted = 0;
+        }
         RandIndex(int n, const vector<Cluster>& a, const vector<Cluster>& b){
             this->adjusted = 0;
             this->n = n;

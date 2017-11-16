@@ -70,6 +70,7 @@ class HardClustering{
             return stuck;
         }
     public:
+        HardClustering(){}
         HardClustering(int k, int q, const Dataset& data, bool generateLogs){
             this->n = data.size();
             this->log = generateLogs;

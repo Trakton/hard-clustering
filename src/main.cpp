@@ -26,24 +26,35 @@ using namespace std;
 #include "randIndex.cpp"
 
 int main(){
+    vector<double> rands;
     int seed = 1508782516;
     srand(seed);
     CSV csv;
     Dataset dataset(csv.read("data/segmentation.test.csv"));
-    HardClustering clustering(7, 3, dataset, false);
+    ClassClustering knownCluster(dataset, 0);    
+    RandIndex bestRand;
+    HardClustering bestCluster;
     for(int i = 0; i < 100; i++){
-        if(clustering.run()){
-          printf("REACHED A LOCAL MINIMUM\n");
-          break;
-        }
-        printf("%d/100 iterations done.\n", i);
+        printf("\n[%d] -- NEW CLUSTERING --\n", i);
+        HardClustering clustering(7, 3, dataset, false);
+        while(clustering.run());
+        clustering.printLog();
+        RandIndex rand(dataset.size(), clustering.getClusters(), knownCluster.getClusters());
+        printf("\n -- AJUSTED RAND INDEX -- \n\n %.4lf\n", rand.getAjusted());
+        if(rand.getAjusted() > bestRand.getAjusted()){
+            bestRand = rand;
+            bestCluster = clustering;
+        }        
+        rands.push_back(rand.getAjusted());
     }
-    clustering.printLog();
-    ClassClustering knownCluster(dataset, 0);
     knownCluster.printLog();
-    RandIndex rand(dataset.size(), clustering.getClusters(), knownCluster.getClusters());
-    rand.printContingency();
-    printf("\n -- AJUSTED RAND INDEX -- \n\n %.4lf\n", rand.getAjusted());
-    printf("\n -- RANDOM SEED: %d\n", seed);
+    bestCluster.printLog();
+    bestRand.printContingency();
+    printf("\n -- AJUSTED RAND INDEX -- \n\n %.4lf\n", bestRand.getAjusted());
+    printf("\n Rand Indexes for the 100 independent runs: \n");
+    for(int i = 0; i < rands.size(); i++){
+        printf("%.3lf, ", rands[i]);
+    }
+    printf("\n");
     return 0;
 }
